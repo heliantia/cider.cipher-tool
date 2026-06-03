@@ -1,73 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Simple Cipher Tool</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
+<textarea id="input" placeholder="Type your text here..."></textarea>
+
+<h3>Output</h3>
+<div class="output" id="output"></div><script>
+  const map = {
+    a:'e', e:'a',
+    b:'d', d:'b',
+    c:'o', o:'c',
+    f:'t', t:'f',
+    g:'s', s:'g',
+    h:'n', n:'h',
+    i:'j', j:'i',
+    k:'y', y:'k',
+    l:'x', x:'l',
+    m:'w', w:'m',
+    p:'q', q:'p',
+    r:'z', z:'r',
+    u:'v', v:'u'
+  };
+
+  function transformText(text) {
+    let output = "";
+    for (let char of text) {
+      output += map[char] || char;
     }
-    textarea {
-      width: 100%;
-      height: 120px;
-      margin-bottom: 10px;
-      font-size: 16px;
+    return output;
+  }
+
+  const input = document.getElementById("input");
+  const output = document.getElementById("output");
+
+  function update() {
+    output.innerText = transformText(input.value);
+  }
+
+  // 🔥 transforma enquanto escreves
+  input.addEventListener("input", update);
+
+  // 🔥 Enter também força atualização (caso queiras “sentir app”)
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      setTimeout(update, 0);
     }
-    button {
-      padding: 10px 15px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-    .output {
-      white-space: pre-wrap;
-      background: #f4f4f4;
-      padding: 10px;
-      min-height: 120px;
-    }
-  </style>
-</head>
-<body>
+  });
 
-  <h2>🔐 Cipher Transformer</h2>
-
-  <textarea id="input" placeholder="Type your text here..."></textarea>
-  <br />
-  <button onclick="transformText()">Transform</button>
-
-  <h3>Output</h3>
-  <div class="output" id="output"></div>
-
-  <script>
-    const map = {
-      a:'e', e:'a',
-      b:'d', d:'b',
-      c:'o', o:'c',
-      f:'t', t:'f',
-      g:'s', s:'g',
-      h:'n', n:'h',
-      i:'j', j:'i',
-      k:'y', y:'k',
-      l:'x', x:'l',
-      m:'w', w:'m',
-      p:'q', q:'p',
-      r:'z', z:'r',
-      u:'v', v:'u'
-    };
-
-    function transformText() {
-      const input = document.getElementById("input").value;
-      let output = "";
-
-      for (let char of input) {
-        output += map[char] || char;
-      }
-
-      document.getElementById("output").innerText = output;
-    }
-  </script>
-
-</body>
-</html>
+  // inicial
+  update();
+</script>
