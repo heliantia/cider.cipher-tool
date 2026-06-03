@@ -37,7 +37,8 @@
 </head>
 
 <body>
-
+<button id="installBtn" style="display:none; padding:10px 15px; margin-bottom:10px;"> Download
+</button>
 <textarea id="input" placeholder="try: Cider Cipher is so cool XD !!"></textarea>
 
 <h3>Output</h3>
@@ -85,6 +86,29 @@
 
   update();
 </script>
+<script>
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
 
+// O browser diz quando a app é instalável
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault(); // impede o popup automático
+  deferredPrompt = e;
+  installBtn.style.display = "block"; // mostra o botão
+});
+
+// quando clicas no botão
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) return;
+
+  deferredPrompt.prompt(); // mostra popup de instalação
+
+  const choice = await deferredPrompt.userChoice;
+  console.log(choice.outcome);
+
+  deferredPrompt = null;
+  installBtn.style.display = "none"; // esconde depois de usar
+});
+</script>
 </body>
 </html>
